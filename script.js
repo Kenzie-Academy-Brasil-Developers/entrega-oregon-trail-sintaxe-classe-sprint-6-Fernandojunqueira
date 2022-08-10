@@ -1,60 +1,66 @@
-class Traveler{
-    constructor(name){
+    class Traveler{
+        constructor(name){
 
-        this._name       = name;
-        this._amountFood = 1;
-        this._isHealthy  = true;
-        
-        
-    }
-
-
-    hunt(){
-
-         this._amountFood += 2
-    }
-    eat(){
-
-        if(this._amountFood > 0){
-            this._amountFood -= 1
-        }else{
-            this._isHealthy = false
-        }
-    }
-}
-
-class Wagon {
-    constructor(capacity){
-
-        this._capacity       = capacity;
-        this.passangersArray = []
-    }
-
-    getAvailableSeatCount(){
-
-        return this._capacity - this.passangersArray.length;
-
-    }
-    join(obj){
-
-        if(this._capacity > this.passangersArray.length){
-
-            this.passangersArray.push(obj)
+            this._name       = name;
+            this._amountFood = 1;
+            this._isHealthy  = true;
+            
             
         }
-    }
-    shouldQuarantine(){
 
-       return this.passangersArray.some(element => element._isHealthy == false)
+
+        hunt(){
+            
+            this._amountFood += 2
+            if(this._amountFood > 0){
+                this._isHealthy = true
+                
+            }
+        }
+        eat(){
+
+            if(this._amountFood > 0){
+                this._amountFood -= 1
+                this._isHealthy = true
+                
+            }else{
+                this._isHealthy = false
+            }
+        }
     }
+
+    class Wagon {
+        constructor(capacity){
+
+            this._capacity       = capacity;
+            this.passangersArray = []
+        }
+
+        getAvailableSeatCount(){
+
+            return this._capacity - this.passangersArray.length;
+
+        }
+        join(obj){
+
+            if(this._capacity > this.passangersArray.length){
+
+                this.passangersArray.push(obj)
+                
+            }
+        }
+        shouldQuarantine(){
+
+        return this.passangersArray.some(element => element._isHealthy == false)
+        }
+        
+        totalFood(){
+
+        return this.passangersArray.reduce((acc,act) => acc + act._amountFood,0)
+        }
+
     
-    totalFood(){
-
-       return this.passangersArray.reduce((acc,act) => acc + act._amountFood,0)
     }
-
-   
-}
 // Criar uma carroça que comporta 2 pessoas
 let wagon = new Wagon(2);
 // Criar três viajantes
@@ -75,6 +81,7 @@ console.log(wagon)
 henrietta.hunt(); // pega mais comida
 juan.eat();
 juan.eat(); // juan agora está com fome (doente)
+
 
 console.log(`${wagon.shouldQuarantine()} should be true since juan is sick`);
 console.log(`${wagon.totalFood()} should be 3`);
